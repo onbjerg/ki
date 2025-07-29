@@ -55,7 +55,7 @@ impl Keystore {
 /// `ki use` should be used in conjunction with `source` for your shell. ki will try to
 /// auto-detect your shell and output the appropriate format.
 #[derive(Parser, Debug)]
-#[command(version, about)]
+#[command(version, about, verbatim_doc_comment)]
 enum Cmd {
     /// Switch to a wallet.
     ///
@@ -68,8 +68,10 @@ enum Cmd {
     /// # Fish
     /// ki use dev | .
     /// ```
+    #[command(verbatim_doc_comment)]
     Use(Keystore),
     /// Create a new wallet.
+    #[command(verbatim_doc_comment)]
     New(Keystore),
 }
 
