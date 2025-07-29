@@ -26,9 +26,7 @@ impl Keystore {
         if let Some(password) = self.password.clone() {
             password
         } else {
-            Password::new("Password:")
-                .prompt()
-                .expect("could not read password")
+            Password::new("Password:").prompt().expect("could not read password")
         }
     }
 
@@ -45,8 +43,14 @@ impl Keystore {
     }
 }
 
+/// ki is a key management utility for Cast.
+///
+/// Using ki is simple: create new keys using `ki new`, switch between keys using `ki use`.
+///
+/// `ki use` should be used in conjunction with `source` for your shell. ki will try to
+/// auto-detect your shell and output the appropriate format.
 #[derive(Parser, Debug)]
-#[command(version, about, long_about = None)]
+#[command(version, about)]
 enum Cmd {
     /// Switch to a wallet.
     ///
