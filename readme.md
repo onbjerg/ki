@@ -4,13 +4,28 @@ A self-explanatory key management utility to be used with [`cast`](https://githu
 
 ki can create and manage a set of keystores that you can easily switch between.
 
+## Usage
+
+**Create a new key**
+
 ```bash
-# Create a new key
-$ ki new foo
-# Note that this will error
-$ cast wallet address
-# Use your new key
-$ . <(ki use foo)
-$ cast wallet address
-0x..
+ki new foo
 ```
+
+You will notice that commands like `cast wallet address` will still complain about a missing key.
+
+**Use the new key**
+
+For Bash:
+
+```bash
+. <(ki use foo)
+```
+
+For fish:
+
+```fish
+ki use foo | .
+```
+
+Now `cast wallet address` will work without any additional arguments.
