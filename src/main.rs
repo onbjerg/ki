@@ -22,22 +22,27 @@ struct Keystore {
 }
 
 impl Keystore {
-    fn password(&self) -> String {
+    fn password(&self, confirm: bool) -> String {
         if let Some(password) = self.password.clone() {
-            password
-        } else {
-            Password::new("Password:").prompt().expect("could not read password")
+            return password;
         }
+
+        let mut pw =
+            Password::new("Password:").with_display_mode(inquire::PasswordDisplayMode::Masked);
+        if !confirm {
+            pw = pw.without_confirmation();
+        }
+        pw.prompt().expect("could not read password")
     }
 
     fn load(&self) -> Result<LocalSigner<SigningKey>, LocalSignerError> {
-        LocalSigner::decrypt_keystore(&self.path, self.password())
+        LocalSigner::decrypt_keystore(self.path.join(self.name.as_str()), self.password(false))
     }
 
     fn save(&self) -> Result<LocalSigner<SigningKey>, LocalSignerError> {
         let mut rng = rand::thread_rng();
         let (signer, _): (LocalSigner<SigningKey>, _) =
-            LocalSigner::new_keystore(&self.path, &mut rng, self.password(), Some(&self.name))?;
+            LocalSigner::new_keystore(&self.path, &mut rng, self.password(true), Some(&self.name))?;
 
         Ok(signer)
     }
