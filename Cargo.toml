@@ -1,0 +1,15 @@
+[package]
+name = "ki"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+alloy = { version = "1.0.23", default-features = false, features = [
+    "std",
+    "signers",
+    "signer-local",
+    "signer-keystore",
+] }
+clap = { version = "4.5.41", features = ["derive"] }
+inquire = "0.7.5"
+rand = "0.8.0"
